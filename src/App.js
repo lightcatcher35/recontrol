@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import './App.css';
 import 'semantic-ui-css/semantic.min.css';
-import Login from './pages/Login';
-import Home from './pages/Home';
+import Login from './components/pages/Login';
+import Home from './components/pages/Home';
 import fire from './configs/Fire';
 
 class App extends Component {
-
   state={
     user:null
   }
@@ -22,20 +21,17 @@ class App extends Component {
   authListener()
   {
     fire.auth().onAuthStateChanged((user)=>
-    {
-      console.log("güncellendi");
-      console.log(user);
-      
+    {      
       this.setState({user});
-
+      localStorage.setItem('user',JSON.stringify(user));
+      
     })
-
   }
 
   render() {
     return (
       <div className="App">
-        { this.state.user?(<Home />):(<Login />)}
+        {this.state.user?(<Home />):(<Login />)}
       </div>
     );
   }
