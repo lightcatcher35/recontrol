@@ -1,22 +1,48 @@
-import React from 'react';
+import React, { Component } from 'react'
+import fire from '../../configs/Fire';
+import {Link,NavLink} from 'react-router-dom';
+import {
+    Container,
+    Image,
+    Menu,
+    Input
+  } from 'semantic-ui-react'
 
-const header = (props) => {
-    return (
-        <div>
-            <Menu fixed='top' inverted>
-                <Container>
-                    <Menu.Item as='a' header>
-                    <Image size='mini' src='/logo.png' style={{ marginRight: '1.5em' }} />
-                    Project Name
-                    </Menu.Item>
-                    <Menu.Item as='a'>Home</Menu.Item>
-                    <Menu.Item as={Link} onClick={this.onSignout}>Logout</Menu.Item>
-                    
-                </Container>
-            </Menu>
+class Header extends Component {
+    constructor(props)
+    {
+        super(props);
+        this.onSignout=this.onSignout.bind(this);
+    }
 
-        </div>
-    );
+    onSignout()
+    {
+        fire.auth().signOut();
+    }
+
+    render() {
+        return (
+            <div>
+                <Menu fixed='top' inverted>
+                    <Container>
+                        <Menu.Item as='a' header>
+                        {this.props.app.project_name}
+                        </Menu.Item>
+                        <Menu.Item as={Link} to="/">Home</Menu.Item>
+                        <Menu.Item as={NavLink} to="/posts">Posts</Menu.Item>
+                        <Menu.Item as={NavLink} to="/settings">Settings</Menu.Item>
+                        <Menu.Menu position='right'>
+                            <Menu.Item>
+                                <Input icon='search' placeholder='Search...' />
+                            </Menu.Item>
+                            <Menu.Item as="a" onClick={this.onSignout}>Logout</Menu.Item>
+                    </Menu.Menu>
+                    </Container>
+                </Menu>
+
+            </div>
+        )
+    }
 }
 
-export default header;
+export default Header;

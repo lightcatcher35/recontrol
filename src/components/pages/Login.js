@@ -26,13 +26,22 @@ class Login extends Component {
     }
     onSubmitForm()
     {
+        this.setState({
+            progressing:true
+        })
+
+        
         fire.auth().signInWithEmailAndPassword(this.state.username,this.state.password).then((u)=>
         {
+            this.setState({
+                progressing:false
+            })
 
         }).catch(error=>{
 
             console.log(error);
             this.setState({
+                progressing:true,
                 "error":error.message
             })
         })
@@ -49,7 +58,7 @@ class Login extends Component {
                     </Header>
                     
                     {this.state.error&&<Warn title="Hata" content={this.state.error}/>}
-                    <Form size='large' onSubmit={this.onSubmitForm}>
+                    <Form size='large' onSubmit={this.onSubmitForm} loading={this.state.progressing}>
                         <Segment stacked>
                         <Form.Input 
                             name="username"
